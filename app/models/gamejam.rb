@@ -1,0 +1,2 @@
+class Gamejam < ApplicationRecord
+end

@@ -1,0 +1,2 @@
+class JamSubmission < ApplicationRecord
+end
