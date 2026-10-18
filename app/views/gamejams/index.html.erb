@@ -1,0 +1,9 @@
+<h1>Gamejams</h1>
+
+<div id="gamejams">
+  <% @gamejams.each do |gamejam| %>
+    <div> 
+      <%= link_to gamejam.name, gamejam_path(gamejam.id) %>
+    </div>
+  <% end %>
+</div>
