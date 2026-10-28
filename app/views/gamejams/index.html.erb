@@ -1,9 +1,10 @@
-<%= link_to "Login", new_session_path unless authenticated? %>
+<%= link_to "Login or sign up", new_session_path unless authenticated? %>
 <h1>Gamejams</h1>
+
 
 <div id="gamejams">
   <ul type="none" style="columns: 100px 3">
-  <% @gamejams.select{ |gj| gj.accessible?}.each do |gamejam| %>
+  <% @gamejams.select{|gj| gj.accessible?}.each do |gamejam| %>
     <li style="break-inside: avoid"> 
       <%= link_to gamejam.name, gamejam_path(gamejam.id) %>
       <div>Author: <%= link_to gamejam.author.nickname, user_path(gamejam.author.id) %></div>

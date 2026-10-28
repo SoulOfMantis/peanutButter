@@ -25,7 +25,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_23_090913) do
     t.string "theme", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "status", default: "Private", null: false
+    t.string "status", default: "Draft", null: false
     t.date "start_date"
     t.date "end_date"
     t.bigint "author_id", null: false
@@ -58,7 +58,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_23_090913) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "name", null: false
-    t.string "nickname"
+    t.string "nickname", null: false
     t.index ["email_address"], name: "index_users_on_email_address", unique: true
   end
 

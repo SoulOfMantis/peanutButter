@@ -1,0 +1,46 @@
+<%= form_with model: gamejam do |form| %>
+    <% if form.object.errors.any? %>
+    <p class="error"><%= form.object.errors.full_messages.first %></p>
+    <% end %>
+
+  <div>
+    <%= form.label :name %>
+    <%= form.text_field :name, required: true %>
+  </div>
+
+  <div>
+    <%= form.label :theme %>
+    <%= form.text_field :theme, required: true %>
+  </div>
+
+  <div>
+    <%= form.label :description %>
+    <%= form.text_field :description %>
+  </div>
+
+  <div>
+    <% form.label :time_zone %>
+    <% form.time_zone_select :time_zone %>
+  </div>
+
+  <div>
+    <%= form.label :start_date %>
+    <%= form.date_select :start_date, start_month: Time.now.month, start_year: Time.now.year, end_year: Time.now.year+2, start_date: 3.days.from_now %>
+  </div>
+
+  <div>
+    <%= form.label :end_date %>
+    <%= form.date_select :end_date, start_month: Time.now.month, start_year: Time.now.year, end_year: Time.now.year+2, start_date: 4.days.from_now %>
+  </div>
+
+  <div>
+    <% if can_be_published%>
+      <%= form.select :status, [["Save as draft", "Draft"], ["Publish","Published"]], selected: gamejam.status %>
+    <% end %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
+

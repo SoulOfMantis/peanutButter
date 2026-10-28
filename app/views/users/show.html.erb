@@ -1,7 +1,8 @@
 <h1><%= @user.nickname %></h1>
+
   <div> 
     <div>Joined: <%= @user.created_at %></div>
-    <% public_gamejams = @user.gamejams.select{ |gj| gj.public? or gj.author=Current.session.user} %>
+    <% public_gamejams = @user.gamejams.select{ |gj| gj.published? or gj.author=Current.session.user} %>
     <h2 style="text-align: center"> <%= "Created these gamejams:" unless public_gamejams.empty? %></h2>
     <ul type="none" style="column-count: 3">
     <% public_gamejams.each do |gamejam| %>

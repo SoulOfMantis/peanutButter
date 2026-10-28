@@ -1,10 +1,14 @@
 <h1><%= @gamejam.name %></h1>
+
+<%= button_to "Edit", edit_gamejam_path(@gamejam), method: :get if @gamejam.authored_by_current_user?%>
     <div> 
       <div>Author: <%= link_to @gamejam.author.nickname, user_path(@gamejam.author.id) %></div>
       <div><%=@gamejam.description.nil? ? "---" : @gamejam.description%></div>
       <div>Status: <%= @gamejam.status %></div>
       <div>Starts: <%= @gamejam.start_date %></div>
       <div>Ends: <%= @gamejam.end_date %></div>
-      <div>Theme: <%= (@gamejam.was_started? or @gamejam.author==Current.session.user) ?  @gamejam.theme : "Hidden"%></div>
+      <div>Theme: <%= (@gamejam.was_started? or @gamejam.authored_by_current_user?) ? @gamejam.theme : "Hidden"%></div>
     </div>
-<%= link_to "Back", gamejams_path %>
+<%= button_to "Delete", @product, method: :delete, data: { turbo_confirm: "Are you sure?" } if @gamejam.authored_by_current_user? %>
+<%= button_to "Back", gamejams_path, method: :get %>
+
