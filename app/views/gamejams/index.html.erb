@@ -7,14 +7,16 @@
 }
 </style>
 <% authenticated? %>
-<h1>Gamejams:</h1>
+<ul type="none" style="display: flex; align-items: center; margin-top: 35px">
+  <li><h1>Gamejams:</h1></li>
+</ul>
 </head>
 
 <div id="gamejams">
   <ul type="none" class="container">
   <% @gamejams.select{|gj| gj.accessible?}.each do |gamejam| %>
     <li class="jam_block" style="break-inside: avoid"> 
-      <h3><%= link_to gamejam.name, gamejam_path(gamejam.id) %></h3>
+      <h3 class="linking_headline"><%= link_to gamejam.name, gamejam_path(gamejam.id) %></h3>
       <p>
         <div>Author: <%= link_to gamejam.author.nickname, user_path(gamejam.author.id) %></div>
         <div><%=gamejam.description.nil? ? "---" : gamejam.description%></div>

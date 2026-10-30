@@ -7,23 +7,25 @@
 }
 </style>
 <% authenticated? %>
-<h1> Submissions </h1>
+<ul type="none" class="container">
+  <li><h1> Submissions</h1></li> 
+  <li class="linking_headline"><h3><%= link_to "Back to #{@gamejam.name}", gamejam_path(@gamejam) %></h3></li>
+</ul>
 </head>
 
 <div id="gamejams">
   <ul type="none" class="container">
-  <% @jam_submissions.each do |jam_submission| %>
+  <% @jam_submissions.select{|j| j.accessible?}.each do |jam_submission| %>
     <li class="jam_block" style="break-inside: avoid"> 
-      <h3><%= link_to jam_submission.name, jam_submission_path(jam_submission.id) %></h3>
+      <h3 class="linking_headline"><%= link_to jam_submission.name, [jam_submission.gamejam, jam_submission] %></h3>
       <p>
-        <div>Author: <%= link_to jam_submission.author.nickname, user_path(jam_submission.author.id) %></div>
+        <div>Author: <%= link_to jam_submission.author.nickname, [jam_submission.author] %></div>
         <div><%=jam_submission.description.nil? ? "---" : jam_submission.description%></div>
       </p>
        <div class="status">Status: <% %></div>        
     </li>
   <% end %>
-    <% if authenticated? %>
+    <% if authenticated? and !@gamejam.authored_by_current_user? %>
       <h2><li class="jam_block" style="break-inside: avoid"><%= link_to "Create new Submission", new_gamejam_jam_submission_path %></li></h2>
     <% end %>
   </ul>
-</div>

@@ -34,8 +34,8 @@
   </div>
 
   <div>
-    <% if can_be_published%>
-      <%= form.select :status, [["Save as draft", "Draft"], ["Publish","Published"]], ["Start", "Ongoing"]], selected: gamejam.status %>
+    <% if can_be_published %>
+      <%= form.select :status, [["Save as draft", "Draft"], ["Publish","Published"], ["Start", "Ongoing"]], selected: gamejam.status %>
     <% end %>
   </div>
 

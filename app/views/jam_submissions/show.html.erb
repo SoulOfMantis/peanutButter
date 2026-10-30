@@ -5,19 +5,19 @@
 }
 </style>
 
-<h1><%= @gamejam.name %></h1>
+<ul type="none" class="container">
+  <li><h1><%= @jam_submission.name %></h1></li> 
+  <li class="linking_headline"><h3><%= link_to "Back to other submissions", gamejam_jam_submissions_path(@jam_submission.gamejam) %></h3></li>
+</ul>
+
 <ul class="container" type="none">
   <li class="jam_block"> 
-    <div>Author: <%= link_to @gamejam.author.nickname, user_path(@gamejam.author.id) %></div>
-    <div><%=@gamejam.description.nil? ? "---" : @gamejam.description%></div>
-    <div>Theme: <%= (@gamejam.was_started? or @gamejam.authored_by_current_user?) ? @gamejam.theme : "Hidden"%></div>
-    <div>Starts: <%= @gamejam.start_date %></div>
-    <div>Ends: <%= @gamejam.end_date %></div>
-    <div class="status">Status: <%= @gamejam.status %></div>
-    <div><%= button_to "Edit", edit_gamejam_path(@gamejam), method: :get if @gamejam.authored_by_current_user?%></div>
-    <div><%= button_to "Delete", @product, method: :delete, data: { turbo_confirm: "Are you sure?" } if @gamejam.authored_by_current_user? %></div>
+    <div>Author: <%= link_to @jam_submission.author.nickname, user_path(@jam_submission.author.id) %></div>
+    <div><%=@jam_submission.description.nil? ? "---" : @jam_submission.description%></div>
+    <div class="status">Status: <%= @jam_submission.status %></div>
+    <div><%= button_to "Edit", edit_gamejam_jam_submission_path(@jam_submission), method: :get if @jam_submission.authored_by_current_user? %></div>
+    <div><%= button_to "Delete", [@jam_submission.gamejam, @jam_submission], method: :delete, data: { turbo_confirm: "Are you sure?" } if @jam_submission.authored_by_current_user? %></div>
   </li>
 </ul>
-<%= button_to "Back", gamejams_path, method: :get %>
 
 

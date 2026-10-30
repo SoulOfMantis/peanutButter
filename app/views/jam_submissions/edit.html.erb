@@ -1,6 +1,7 @@
-<h1>Edit gamejam</h1>
+<h1>Edit jam submission</h1>
 
-<%= render "form", gamejam: @gamejam, can_be_published: true%>
+<%= render "form", jam_submission: @jam_submission, can_be_published: true%>
 
-<%= button_to "Cancel", gamejams_path, method: :get %>
+<%= button_to "Cancel", [@jam_submission.gamejam, @jam_submission], method: :get %>
+
 

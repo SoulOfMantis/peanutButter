@@ -1,8 +1,8 @@
 class User < ApplicationRecord
   has_secure_password
   has_many :sessions, dependent: :destroy
-  has_many :gamejams, inverse_of: "author"
-  has_many :jam_submissions, inverse_of: "author"
+  has_many :gamejams, inverse_of: "author", dependent: :destroy
+  has_many :jam_submissions, inverse_of: "author", dependent: :destroy
 
 #  validates :name, :nickname, presense: true 
 

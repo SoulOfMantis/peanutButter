@@ -1,6 +1,6 @@
 class Gamejam < ApplicationRecord
   belongs_to :author, class_name: "User", foreign_key: "author_id"
-  has_many :jam_submissions
+  has_many :jam_submissions, dependent: :destroy
   
 #  validates :name, :theme, :status, presense: true 
 

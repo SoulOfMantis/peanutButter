@@ -1,4 +1,4 @@
-<%= form_with model: jam_submission do |form| %>
+<%= form_with model: jam_submission, url: gamejam_jam_submissions_path(params[:gamejam_id]) do |form| %>
     <% if form.object.errors.any? %>
     <p class="error"><%= form.object.errors.full_messages.first %></p>
     <% end %>
