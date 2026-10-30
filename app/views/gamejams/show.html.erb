@@ -18,6 +18,8 @@
     <div><%= button_to "Delete", @product, method: :delete, data: { turbo_confirm: "Are you sure?" } if @gamejam.authored_by_current_user? %></div>
   </li>
 </ul>
+<% link_to "Join", gamejams_path if authenticated? and !@gamejam.was_started? %>
+<%= link_to "Submissions", gamejam_jam_submissions_path(@gamejam), gamejam: @gamejam %>
 <%= button_to "Back", gamejams_path, method: :get %>
 
 

@@ -1,0 +1,26 @@
+<%= form_with model: jam_submission do |form| %>
+    <% if form.object.errors.any? %>
+    <p class="error"><%= form.object.errors.full_messages.first %></p>
+    <% end %>
+
+  <div>
+    <%= form.label :name %>
+    <%= form.text_field :name, required: true %>
+  </div>
+
+  <div>
+    <%= form.label :description %>
+    <%= form.text_field :description %>
+  </div>
+
+  <div>
+    <% if can_be_published%>
+      <%= form.select :status, [["Save as draft", "Draft"], ["Publish","Published"]], selected: jam_submission.status %>
+    <% end %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
+

@@ -1,0 +1,29 @@
+<head>
+<style>
+.container {
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+}
+</style>
+<% authenticated? %>
+<h1> Submissions </h1>
+</head>
+
+<div id="gamejams">
+  <ul type="none" class="container">
+  <% @jam_submissions.each do |jam_submission| %>
+    <li class="jam_block" style="break-inside: avoid"> 
+      <h3><%= link_to jam_submission.name, jam_submission_path(jam_submission.id) %></h3>
+      <p>
+        <div>Author: <%= link_to jam_submission.author.nickname, user_path(jam_submission.author.id) %></div>
+        <div><%=jam_submission.description.nil? ? "---" : jam_submission.description%></div>
+      </p>
+       <div class="status">Status: <% %></div>        
+    </li>
+  <% end %>
+    <% if authenticated? %>
+      <h2><li class="jam_block" style="break-inside: avoid"><%= link_to "Create new Submission", new_gamejam_jam_submission_path %></li></h2>
+    <% end %>
+  </ul>
+</div>

@@ -1,22 +1,22 @@
 class JamSubmissionsController < ApplicationController
   allow_unauthenticated_access only: %i[ index show ]
-  before_action :resume_session, :set_gamejam, only: %i[ show edit update destroy ] 
+  before_action :resume_session, :set_jam_submission, only: %i[ show edit update destroy ] 
   def index
-    @gamejams = Gamejam.all
+    @jam_submissions = JamSubmission.where(gamejam_id: params[:gamejam_id])
   end
 
   def show
   end
 
   def new
-    @gamejam = Gamejam.new
+    @jam_submission = JamSubmission.new
   end
 
   def create
-    @gamejam = Gamejam.new(gamejam_params)
-    @gamejam.author = Current.session.user
-    if @gamejam.save
-      redirect_to @gamejam
+    @jam_submission = JamSubmission.new(jam_submission_params)
+    @jam_submission.author = Current.session.user
+    if @jam_submission.save
+      redirect_to @jam_submission
     else
       render :new, status: :unprocessable_entity
     end
@@ -26,24 +26,24 @@ class JamSubmissionsController < ApplicationController
   end
 
   def update
-    if @gamejam.update(gamejam_params)
-      redirect_to @gamejam
+    if @jam_submission.update(jam_submission_params)
+      redirect_to @jam_submission
     else
       render :edit, status: :unprocessable_entity
     end
   end
 
   def destroy
-    @gamejam.destroy 
-    redirect_to gamejams_path
+    @jam_submission.destroy 
+    redirect_to jam_submissions_path
   end
 
   private
-    def set_gamejam
-      @gamejam = Gamejam.find(params[:id])      
+    def set_jam_submission
+      @jam_submission = JamSubmission.find(params[:id])      
     end
 
-    def gamejam_params
-      params.expect(gamejam: [ :name, :description, :theme, :start_date, :end_date, :status ])
+    def jam_submission_params
+      params.expect(jam_submission: [ :name, :description, :gamejam_id])
     end
 end
