@@ -21,14 +21,74 @@
     <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
+    <style>
+      ul.nav_container {
+        list-style-type: none;        
+        margin: 0;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        background-color: orange;
+        outline-style: solid;
+        outline-width: thick;
+        outline-color: purple;
+      }
+      .nav_container li {
+        margin: 10px;
+        padding: 14px 16px;
+        color: black;
+      }
+      .nav_container li:hover {
+        background-color: white;
+      }
+      body {
+        background-color: tomato;
+      }
+      .jam_block {
+        background-color: moccasin;
+        margin: 30px;
+        padding: 20px;
+        outline-style: solid;
+        outline-width: thick;
+        outline-color: slateblue;
+      }
+      div.status {
+        background-color: white;
+        position: static;
+        bottom: 10px;
+        outline-style: solid;
+        outline-color: invert;
+        text-align: center;
+      }
+      h1 {
+        border-style: double; 
+        border-width: thick;
+        background-color: gold; 
+        padding: 10px; 
+        margin: 10px 15px;
+        width: 300px;
+        text-align: center;
+      }
+
+    </style>
+    <nav>        
+      <ul class="nav_container">
+          <li><h2><%= link_to "Gamejams", root_path %></h2></li>
+          <li><h2><%= link_to "My Gamejams", new_session_path %></h2></li>
+          <li><h2><%= link_to "Joined Jams", new_session_path %></h2></li>
+          <li><h2><%= link_to "My Submissions", new_session_path %></h2></li>
+          <% if authenticated? %>
+            <li><h2><%= link_to "Profile", user_path(Current.user.id)%></h2></li>
+            <li><%= button_to "Log out", session_path, method: :delete %></li>
+          <% else %>
+            <li><h2><%= link_to "Login or sign up", new_session_path %></h2></li>
+          <% end %>
+      </ul>
+    </nav>
+
   </head>
 
    <body>
-    <nav>
-      <%= link_to "Gamejams", root_path %>
-      <%= button_to "Log out", session_path, method: :delete if authenticated? %>
-    </nav>
-
     <main>
       <%= yield %>
     </main>

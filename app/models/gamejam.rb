@@ -2,7 +2,7 @@ class Gamejam < ApplicationRecord
   belongs_to :author, class_name: "User", foreign_key: "author_id"
   has_many :jam_submissions
   
-  validates :name, :theme, :status, presense: true 
+#  validates :name, :theme, :status, presense: true 
 
   def published?
     status != "Draft"

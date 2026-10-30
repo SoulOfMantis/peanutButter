@@ -4,7 +4,7 @@ class User < ApplicationRecord
   has_many :gamejams, inverse_of: "author"
   has_many :jam_submissions, inverse_of: "author"
 
-  validates :name, :nickname, presense: true 
+#  validates :name, :nickname, presense: true 
 
   normalizes :email_address, with: ->(e) { e.strip.downcase }
 end

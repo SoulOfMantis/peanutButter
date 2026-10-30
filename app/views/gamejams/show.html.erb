@@ -1,14 +1,23 @@
-<h1><%= @gamejam.name %></h1>
+<style>
+.container {
+  display: flex;
+  align-items: center;
+}
+</style>
 
-<%= button_to "Edit", edit_gamejam_path(@gamejam), method: :get if @gamejam.authored_by_current_user?%>
-    <div> 
-      <div>Author: <%= link_to @gamejam.author.nickname, user_path(@gamejam.author.id) %></div>
-      <div><%=@gamejam.description.nil? ? "---" : @gamejam.description%></div>
-      <div>Status: <%= @gamejam.status %></div>
-      <div>Starts: <%= @gamejam.start_date %></div>
-      <div>Ends: <%= @gamejam.end_date %></div>
-      <div>Theme: <%= (@gamejam.was_started? or @gamejam.authored_by_current_user?) ? @gamejam.theme : "Hidden"%></div>
-    </div>
-<%= button_to "Delete", @product, method: :delete, data: { turbo_confirm: "Are you sure?" } if @gamejam.authored_by_current_user? %>
+<h1><%= @gamejam.name %></h1>
+<ul class="container" type="none">
+  <li class="jam_block"> 
+    <div>Author: <%= link_to @gamejam.author.nickname, user_path(@gamejam.author.id) %></div>
+    <div><%=@gamejam.description.nil? ? "---" : @gamejam.description%></div>
+    <div>Theme: <%= (@gamejam.was_started? or @gamejam.authored_by_current_user?) ? @gamejam.theme : "Hidden"%></div>
+    <div>Starts: <%= @gamejam.start_date %></div>
+    <div>Ends: <%= @gamejam.end_date %></div>
+    <div class="status">Status: <%= @gamejam.status %></div>
+    <div><%= button_to "Edit", edit_gamejam_path(@gamejam), method: :get if @gamejam.authored_by_current_user?%></div>
+    <div><%= button_to "Delete", @product, method: :delete, data: { turbo_confirm: "Are you sure?" } if @gamejam.authored_by_current_user? %></div>
+  </li>
+</ul>
 <%= button_to "Back", gamejams_path, method: :get %>
+
 
