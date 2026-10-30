@@ -90,7 +90,7 @@
           <li><h2><%= link_to "My Submissions", new_session_path %></h2></li>
           <% if authenticated? %>
             <li><h2><%= link_to "Profile", user_path(Current.user.id)%></h2></li>
-            <li><%= button_to "Log out", session_path, method: :delete %></li>
+            <li><h2><%= button_to "Log out", session_path, method: :delete %></h2></li>
           <% else %>
             <li><h2><%= link_to "Login or sign up", new_session_path %></h2></li>
           <% end %>
