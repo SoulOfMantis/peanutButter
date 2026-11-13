@@ -7,6 +7,9 @@ class JamSubmissionsController < ApplicationController
   end
 
   def show
+    unless @jam_submission.published? or @jam_submission.authored_by_current_user?
+      redirect_to gamejam_jam_submissions_path, status: :forbidden and return
+    end
   end
 
   def new
@@ -25,9 +28,16 @@ class JamSubmissionsController < ApplicationController
   end
 
   def edit
+    if !@jam_submission.authored_by_current_user?
+      redirect_to @jam_submission, status: :forbidden
+    end
   end
 
   def update
+    if @jam_submission.authored_by_current_user? 
+      render :show, status: :forbidden and return
+    end
+
     if @jam_submission.update(jam_submission_params)
       redirect_to [@jam_submission.gamejam, @jam_submission]
     else
@@ -36,7 +46,7 @@ class JamSubmissionsController < ApplicationController
   end
 
   def destroy
-    @jam_submission.destroy 
+    @jam_submission.destroy if @jam_submission.authored_by_current_user?
     redirect_to gamejam_jam_submissions_path(params[:gamejam_id])
   end
 

@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   resources :gamejams do
     resources :jam_submissions
   end
+    resources :gamejam_participations, only: [:create, :new]
   resources :users
   # Render dynamic PWA files from app/views/pwa/* (remember to link manifest in application.html.erb)
   # get "manifest" => "rails/pwa#manifest", as: :pwa_manifest

@@ -10,13 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_30_083547) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_06_161106) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
-  create_table "gamejam_participants", id: false, force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.bigint "gamejam_id", null: false
+  create_table "gamejam_participations", force: :cascade do |t|
+    t.bigint "participant_id", null: false
+    t.bigint "joined_gamejam_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["joined_gamejam_id"], name: "index_gamejam_participations_on_joined_gamejam_id"
+    t.index ["participant_id"], name: "index_gamejam_participations_on_participant_id"
   end
 
   create_table "gamejams", force: :cascade do |t|
@@ -63,6 +67,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_30_083547) do
     t.index ["email_address"], name: "index_users_on_email_address", unique: true
   end
 
+  add_foreign_key "gamejam_participations", "gamejams", column: "joined_gamejam_id"
+  add_foreign_key "gamejam_participations", "users", column: "participant_id"
   add_foreign_key "gamejams", "users", column: "author_id"
   add_foreign_key "jam_submissions", "gamejams"
   add_foreign_key "jam_submissions", "users", column: "author_id"

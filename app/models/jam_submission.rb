@@ -2,7 +2,10 @@ class JamSubmission < ApplicationRecord
   belongs_to :author, class_name: "User", foreign_key: "author_id"
   belongs_to :gamejam
 
- # validates :name, presense: true 
+  validates :name, presence: true
+  validates :status, presence: true, inclusion: { in: %w(Draft Published), message: "%{value} is not a valid status"}
+  validates :author, presence: true
+
   def published?
     status != "Draft"
   end

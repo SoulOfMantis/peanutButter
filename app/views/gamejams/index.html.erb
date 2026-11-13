@@ -7,27 +7,25 @@
 }
 </style>
 <% authenticated? %>
-<ul type="none" style="display: flex; align-items: center; margin-top: 35px">
-  <li><h1>Gamejams:</h1></li>
-</ul>
-</head>
+<h1 class="yellow_headline"><span class="text">Gamejams</span></h1>
 
 <div id="gamejams">
-  <ul type="none" class="container">
   <% @gamejams.select{|gj| gj.accessible?}.each do |gamejam| %>
-    <li class="jam_block" style="break-inside: avoid"> 
-      <h3 class="linking_headline"><%= link_to gamejam.name, gamejam_path(gamejam.id) %></h3>
+    <div class="info_block"> 
+      <h3 class="yellow_headline"><%= link_to gamejam.name, gamejam_path(gamejam.id) %></h3>
       <p>
         <div>Author: <%= link_to gamejam.author.nickname, user_path(gamejam.author.id) %></div>
-        <div><%=gamejam.description.nil? ? "---" : gamejam.description%></div>
+        <div><%=gamejam.description.empty? ? "---" : gamejam.description%></div>
         <div>Starts: <%= gamejam.start_date %></div>
         <div>Ends: <%= gamejam.end_date %></div>        
       </p>
         <div class="status">Status: <%= gamejam.status %></div>        
-    </li>
+    </div>
   <% end %>
-    <% if authenticated? %>
-      <h2><li class="jam_block" style="break-inside: avoid"><%= link_to "Create new Gamejam", new_gamejam_path %></li></h2>
-    <% end %>
-  </ul>
+  <% if authenticated? %>
+    <div style="display: inline-block"><%= button_to "Create new Gamejam", new_gamejam_path, method: :get, class: "button" %></div>
+  <% end %>
+
+</div>
+
 </div>

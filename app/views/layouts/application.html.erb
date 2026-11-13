@@ -23,76 +23,100 @@
     <%= javascript_importmap_tags %>
     <style>
       ul.nav_container {
-        list-style-type: none;        
-        margin: 0;
+        list-style-type: none;   
+        width: fit-content;
+        margin: 5px;
         padding: 0;
         display: flex;
-        align-items: center;
-        background-color: orange;
+        align-items: stretch;
+        background-color: moccasin;
         outline-style: solid;
         outline-width: thick;
-        outline-color: purple;
+        outline-color: black;
       }
-      .nav_container li {
-        margin: 10px;
-        padding: 14px 16px;
-        color: black;
-      }
-      .nav_container li:hover {
-        background-color: white;
-      }
+
       body {
         background-color: tomato;
       }
-      .jam_block {
+      .info_block {
         background-color: moccasin;
-        margin: 30px;
+        margin: 25px;
         padding: 20px;
-        outline-style: solid;
+        outline-style: double;
         outline-width: thick;
-        outline-color: slateblue;
+        outline-color: black;
+        display: inline-block;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width:250px;
       }
       div.status {
         background-color: white;
         position: static;
         bottom: 10px;
-        outline-style: solid;
-        outline-color: invert;
+        margin: 5px;
+        outline-style: double;
+        outline-color: black;
         text-align: center;
       }
-      h1 {
+      .yellow_headline{
         border-style: double; 
         border-width: thick;
         background-color: gold; 
-        padding: 20px; 
-        margin: 10px 15px;
-        display: inline;
+        margin: 10px;
+        padding: 10px;
+        display: inline-block;
         text-align: center;
       }
-      .linking_headline {
+      .button{
+        border-color: black;
         border-style: double; 
         border-width: thick;
         background-color: gold; 
-        padding: 10px; 
-        margin: 5px 10px;
+        margin: 10px;
+        padding: 16px;
+        display: inline-block;
         text-align: center;
+        font-weight: bold;
+        font-size: 16px;
+        cursor: pointer;      
+        white-space: nowrap;
+        }
+      .button:hover {
+        background-color: yellow; 
       }
-      .linking_headline:hover {
-        background-color: white; 
+      .nav_container .button{
+        margin: 10px;
+        padding: 25px;   
+        font-size: 20px;     
+      }
+      .yellow_headline a:link, .yellow_headline a:visited{
+        color: black;
+        padding: 6px;
+        text-align: center;
+        text-decoration: none;
+        display: inline;        
+        white-space: nowrap;
+        vertical-align: middle;
+      }
+      .yellow_headline a:hover {
+        background-color: yellow; 
       }
 
     </style>
     <nav>        
       <ul class="nav_container">
-          <li><h2><%= link_to "Gamejams", root_path %></h2></li>
-          <li><h2><%= link_to "My Gamejams", new_session_path %></h2></li>
-          <li><h2><%= link_to "Joined Jams", new_session_path %></h2></li>
-          <li><h2><%= link_to "My Submissions", new_session_path %></h2></li>
+          <li><h2><%= button_to "Gamejams", root_path, method: :get, class: "button" %></h2></li>
           <% if authenticated? %>
-            <li><h2><%= link_to "Profile", user_path(Current.user.id)%></h2></li>
-            <li><h2><%= button_to "Log out", session_path, method: :delete %></h2></li>
+            <li><h2><%= button_to "My Gamejams", new_session_path, method: :get, class: "button", disabled: true %></h2></li>
+            <li><h2><%= button_to "Joined Jams", new_session_path, method: :get, class: "button", disabled: true %></h2></li>
+            <li><h2><%= button_to "My Submissions", new_session_path, method: :get, class: "button", disabled: true %></h2></li>
+            <li><h2><%= button_to "Profile", user_path(Current.user.id), method: :get, class: "button", disabled: true%></h2></li>
+            <li><h2><%= button_to "Log out", session_path, method: :delete, class: "button" %></h2></li>
           <% else %>
-            <li><h2><%= link_to "Login or sign up", new_session_path %></h2></li>
+            <li><h2><%= button_to "Log in", new_session_path, method: :get, class: "button" %></h2></li>
+            <li><h2><%= button_to "Sign up", sign_up_path, method: :get, class: "button" %></h2></li>
           <% end %>
       </ul>
     </nav>

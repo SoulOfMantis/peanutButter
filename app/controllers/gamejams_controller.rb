@@ -6,6 +6,9 @@ class GamejamsController < ApplicationController
   end
 
   def show
+    unless @gamejam.published? or @gamejam.authored_by_current_user?
+      redirect_to gamejams_path, status: :forbidden and return
+    end
   end
 
   def new
@@ -14,6 +17,8 @@ class GamejamsController < ApplicationController
 
   def create
     @gamejam = Gamejam.new(gamejam_params)
+    @gamejam.start_date = params[:gamejam][:starts_in].to_i.days.from_now
+    @gamejam.end_date = @gamejam.start_date + params[:gamejam][:lasts_for].to_i.days
     @gamejam.author = Current.session.user
     if @gamejam.save
       redirect_to @gamejam
@@ -23,6 +28,9 @@ class GamejamsController < ApplicationController
   end
 
   def edit
+    if !@gamejam.authored_by_current_user?
+      redirect_to @gamejam, status: :forbidden
+    end
   end
 
   def update
@@ -34,7 +42,7 @@ class GamejamsController < ApplicationController
   end
 
   def destroy
-    @gamejam.destroy 
+    @gamejam.destroy if @gamejam.authored_by_current_user? 
     redirect_to gamejams_path
   end
 
@@ -44,6 +52,6 @@ class GamejamsController < ApplicationController
     end
 
     def gamejam_params
-      params.expect(gamejam: [ :name, :description, :theme, :start_date, :end_date, :status ])
+      params.expect(gamejam: [ :name, :description, :theme, :status ])
     end
 end

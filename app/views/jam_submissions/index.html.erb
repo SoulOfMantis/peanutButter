@@ -1,31 +1,19 @@
 <head>
-<style>
-.container {
-  display: flex;
-  flex-flow: row wrap;
-  align-items: center;
-}
-</style>
 <% authenticated? %>
-<ul type="none" class="container">
-  <li><h1> Submissions</h1></li> 
-  <li class="linking_headline"><h3><%= link_to "Back to #{@gamejam.name}", gamejam_path(@gamejam) %></h3></li>
-</ul>
+<h1 class="yellow_headline"><%= link_to "Submissions", gamejam_jam_submissions_path(@gamejam) %></h1>
+<h1 class="yellow_headline"><%= link_to "Back to #{@gamejam.name}", gamejam_path(@gamejam) %></h1>
 </head>
-
-<div id="gamejams">
-  <ul type="none" class="container">
+<br>
   <% @jam_submissions.select{|j| j.accessible?}.each do |jam_submission| %>
-    <li class="jam_block" style="break-inside: avoid"> 
-      <h3 class="linking_headline"><%= link_to jam_submission.name, [jam_submission.gamejam, jam_submission] %></h3>
+    <div class="info_block" style="break-inside: avoid"> 
+      <h3 class="yellow_headline"><%= link_to jam_submission.name, [jam_submission.gamejam, jam_submission] %></h3>
       <p>
         <div>Author: <%= link_to jam_submission.author.nickname, [jam_submission.author] %></div>
         <div><%=jam_submission.description.nil? ? "---" : jam_submission.description%></div>
       </p>
        <div class="status">Status: <% %></div>        
-    </li>
+    </div>
   <% end %>
     <% if authenticated? and !@gamejam.authored_by_current_user? %>
-      <h2><li class="jam_block" style="break-inside: avoid"><%= link_to "Create new Submission", new_gamejam_jam_submission_path %></li></h2>
+      <div><%= button_to "Create new Submission", new_gamejam_jam_submission_path, class: "button", method: :get  %></div>
     <% end %>
-  </ul>
