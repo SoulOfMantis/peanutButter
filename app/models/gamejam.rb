@@ -1,11 +1,11 @@
 class Gamejam < ApplicationRecord
   belongs_to :author, class_name: "User", foreign_key: "author_id"
-  has_many :jam_submissions, dependent: :destroy
-  has_many :gamejam_participations, inverse_of: "joined_gamejam", dependent: :destroy
-  has_many :participants, through: :gamejam_participations
+  has_many :jam_commands, inverse_of: "joined_jam", dependent: :destroy
+  has_many :jam_submissions, through: :jam_commands
+  has_many :members, through: :jam_commands, class_name: "User"
 
-  validates :name, presence: true, uniqueness: true
-  validates :theme, presence: true
+  validates :name, presence: true, uniqueness: true, length: { in: 6..20 }
+  validates :theme, presence: true, length: { in: 1..30 }
   validates :status, presence: true, inclusion: { in: %w(Draft Published Ongoing Finished), message: "%{value} is not a valid status"}
   validates :author, presence: true
 

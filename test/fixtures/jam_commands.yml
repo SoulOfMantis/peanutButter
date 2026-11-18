@@ -3,7 +3,10 @@
 one:
   name: MyString
   description: MyText
+  joined_jam: alice_jam
 
 two:
   name: MyString
   description: MyText
+  joined_jam: bob_jam
+

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_11_18_192929) do
+ActiveRecord::Schema[8.1].define(version: 2026_11_18_193150) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -43,16 +43,30 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_18_192929) do
     t.index ["author_id"], name: "index_gamejams_on_author_id"
   end
 
+  create_table "jam_commands", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "description"
+    t.bigint "joined_jam_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["joined_jam_id"], name: "index_jam_commands_on_joined_jam_id"
+  end
+
+  create_table "jam_commands_users", id: false, force: :cascade do |t|
+    t.bigint "jam_command_id"
+    t.bigint "user_id"
+    t.index ["jam_command_id"], name: "index_jam_commands_users_on_jam_command_id"
+    t.index ["user_id"], name: "index_jam_commands_users_on_user_id"
+  end
+
   create_table "jam_submissions", force: :cascade do |t|
     t.string "name", null: false
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "author_id", null: false
-    t.bigint "gamejam_id", null: false
     t.string "status", default: "Draft"
-    t.index ["author_id"], name: "index_jam_submissions_on_author_id"
-    t.index ["gamejam_id"], name: "index_jam_submissions_on_gamejam_id"
+    t.bigint "jam_command_id", null: false
+    t.index ["jam_command_id"], name: "index_jam_submissions_on_jam_command_id"
   end
 
   create_table "sessions", force: :cascade do |t|
@@ -77,7 +91,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_11_18_192929) do
   add_foreign_key "gamejam_participations", "gamejams", column: "joined_gamejam_id"
   add_foreign_key "gamejam_participations", "users", column: "participant_id"
   add_foreign_key "gamejams", "users", column: "author_id"
-  add_foreign_key "jam_submissions", "gamejams"
-  add_foreign_key "jam_submissions", "users", column: "author_id"
+  add_foreign_key "jam_commands", "gamejams", column: "joined_jam_id"
+  add_foreign_key "jam_commands_users", "users"
+  add_foreign_key "jam_submissions", "jam_commands"
   add_foreign_key "sessions", "users"
 end

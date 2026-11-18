@@ -30,15 +30,15 @@ class User < ApplicationRecord
   has_secure_password
   has_many :sessions, dependent: :destroy
   has_many :gamejams, inverse_of: "author", dependent: :destroy
-  has_many :gamejam_participations, inverse_of: "participant",  dependent: :destroy
-  has_many :joined_gamejams, through: :gamejams_participants
-  has_many :jam_submissions, inverse_of: "author", dependent: :destroy
+  has_and_belongs_to_many :jam_commands
+  has_many :joined_jams, through: :jam_commands
+  has_many :jam_submissions, through: :jam_commands, inverse_of: "member"
 
   normalizes :email_address, with: ->(e) { e.strip.downcase }
 
   validates :email_address, presence: true, uniqueness: true, email: true
-  validates :nickname, presence: true, uniqueness: true
-  validates :name, presence: true
+  validates :nickname, presence: true, uniqueness: true, length: { in: 3..20 }
+  validates :name, presence: true, length: { in: 1..20 }
   validates :password, password: true
 end
 
