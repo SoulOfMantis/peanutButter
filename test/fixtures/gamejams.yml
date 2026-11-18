@@ -4,11 +4,11 @@ alice_jam:
   name: MyString
   description: MyText
   theme: MyString
-  author: alice (User)
+  author: alice
 
 bob_jam:
   name: MyString2
   description: MyText
   theme: MyString
-  author: bob (User)
+  author: bob
 

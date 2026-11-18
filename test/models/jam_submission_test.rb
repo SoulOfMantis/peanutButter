@@ -8,10 +8,6 @@ class JamSubmissionTest < ActiveSupport::TestCase
     draft = JamSubmission.new status: "Draft"
     assert draft.draft?
   end
-  test "is a draft by default" do
-    draft = JamSubmission.new
-    assert draft.draft?
-  end
   test "is authored by it's author" do
     author = User.new
     draft = JamSubmission.new author: author

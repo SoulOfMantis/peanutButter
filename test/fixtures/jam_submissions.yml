@@ -3,12 +3,12 @@
 one:
   name: MyString
   description: MyText
-  author: alice (User)
-  gamejam: bob_jam (Gamejam)
+  author: alice
+  gamejam: bob_jam
 
 two:
   name: MyString
   description: MyText
-  author: bob (User)
-  gamejam: alice_jam (Gamejam)
+  author: bob
+  gamejam: alice_jam
 

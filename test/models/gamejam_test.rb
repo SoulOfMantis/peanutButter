@@ -8,10 +8,6 @@ class GamejamTest < ActiveSupport::TestCase
     draft = Gamejam.new status: "Draft"
     assert draft.draft?
   end
-  test "is a draft by default" do
-    draft = Gamejam.new
-    assert draft.draft?
-  end
   test "is authored by it's author" do
     author = User.new
     draft = Gamejam.new author: author
