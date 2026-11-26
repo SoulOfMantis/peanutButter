@@ -2,13 +2,21 @@ class JamSubmissionsController < ApplicationController
   allow_unauthenticated_access only: %i[ index show ]
   before_action :resume_session, :set_jam_submission, only: %i[ show edit update destroy ] 
   def index
-    @jam_submissions = JamSubmission.where(gamejam_id: params[:gamejam_id])
-    @gamejam = Gamejam.find(params[:gamejam_id])
+    author = User.find_by nickname: params[:nickname]
+    @gamejam = Gamejam.find params[:gamejam_id]
+    if !author.nil?
+      command_ids = author.jam_command_ids
+      @jam_submissions = JamSubmission.where(jam_command_id: command_ids)
+    elsif !@gamejam.nil?
+      @jam_submissions = @gamejam.jam_submissions
+    else
+      render_404
+    end    
   end
 
   def show
-    unless @jam_submission.published? or @jam_submission.authored_by_current_user?
-      redirect_to gamejam_jam_submissions_path, status: :forbidden and return
+    unless @jam_submission.accessible?
+      redirect_to gamejam_submissions_path, status: :forbidden and return
     end
   end
 
@@ -18,8 +26,7 @@ class JamSubmissionsController < ApplicationController
 
   def create
     @jam_submission = JamSubmission.new(jam_submission_params)
-    @jam_submission.author = Current.session.user
-    @jam_submission.gamejam = Gamejam.find params[:gamejam_id]
+    @jam_submission.jam_command = Current.session.user.jam_command_of_gamejam @jam_submission.gamejam.id
     if @jam_submission.save
       redirect_to [@jam_submission.gamejam, @jam_submission]
     else
@@ -34,7 +41,7 @@ class JamSubmissionsController < ApplicationController
   end
 
   def update
-    if @jam_submission.authored_by_current_user? 
+    if !@jam_submission.authored_by_current_user? 
       render :show, status: :forbidden and return
     end
 
@@ -47,7 +54,7 @@ class JamSubmissionsController < ApplicationController
 
   def destroy
     @jam_submission.destroy if @jam_submission.authored_by_current_user?
-    redirect_to gamejam_jam_submissions_path(params[:gamejam_id])
+    redirect_to gamejam_submissions_path(params[:gamejam_id])
   end
 
   private

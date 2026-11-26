@@ -1,0 +1,5 @@
+<h1 class="yellow_headline">New command</h1>
+
+<%= render "form", jam_command: @jam_command %>
+
+<%= button_to "Cancel", gamejam_commands_path(params[:gamejam_id]), method: :get, class: "button" %>

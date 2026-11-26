@@ -5,6 +5,18 @@ class JamCommand < ApplicationRecord
 
   validates :joined_jam, presence: true
   validates :name, presence: true, length: { in: 4..20 }
+  validates :status, presence: true, inclusion: { in: %w(Private Solo Public), message: "%{value} is not a valid status"}
+  
+  def accessible?
+    authored_by_current_user? or status != "Private" 
+  end
 
+  def authored_by? (user_id)
+    members.exists? user_id
+  end
+
+  def authored_by_current_user?
+    !Current.nil? and !Current.session.nil? and (authored_by? Current.session.user.id)
+  end
 end
 

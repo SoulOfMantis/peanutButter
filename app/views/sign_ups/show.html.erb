@@ -19,6 +19,10 @@
   </div>
 
   <div>
+    <%= form.text_area :description, placeholder: "Enter description for your profile, if you want", cols: 24, rows: 3 %>
+  </div>
+
+  <div>
     <%= form.email_field :email_address, required: true, autocomplete: "email", placeholder: "Enter your email address" %>
   </div>
 

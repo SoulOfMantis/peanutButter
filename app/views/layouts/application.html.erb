@@ -22,6 +22,10 @@
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
     <style>
+      textarea {
+        resize: none;
+      }
+
       ul.nav_container {
         list-style-type: none;   
         width: fit-content;
@@ -46,9 +50,7 @@
         outline-width: thick;
         outline-color: black;
         display: inline-block;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        word-break: break-all;
         width:250px;
       }
       div.status {
@@ -109,10 +111,10 @@
       <ul class="nav_container">
           <li><h2><%= button_to "Gamejams", root_path, method: :get, class: "button" %></h2></li>
           <% if authenticated? %>
-            <li><h2><%= button_to "My Gamejams", new_session_path, method: :get, class: "button", disabled: true %></h2></li>
-            <li><h2><%= button_to "Joined Jams", new_session_path, method: :get, class: "button", disabled: true %></h2></li>
-            <li><h2><%= button_to "My Submissions", new_session_path, method: :get, class: "button", disabled: true %></h2></li>
-            <li><h2><%= button_to "Profile", user_path(Current.user.id), method: :get, class: "button", disabled: true%></h2></li>
+            <li><h2><%= button_to "My Gamejams", "/profile/#{Current.user.nickname}/authored_gamejams", method: :get, class: "button" %></h2></li>
+            <li><h2><%= button_to "My Jam Commands", "/profile/#{Current.user.nickname}/jam_commands", method: :get, class: "button" %></h2></li>
+            <li><h2><%= button_to "My Submissions", "/profile/#{Current.user.nickname}/jam_submissions", method: :get, class: "button" %></h2></li>
+            <li><h2><%= button_to "Profile", user_path(Current.user), method: :get, class: "button" %></h2></li>
             <li><h2><%= button_to "Log out", session_path, method: :delete, class: "button" %></h2></li>
           <% else %>
             <li><h2><%= button_to "Log in", new_session_path, method: :get, class: "button" %></h2></li>

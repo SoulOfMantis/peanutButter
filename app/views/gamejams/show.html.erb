@@ -6,23 +6,24 @@
 </style>
 
 <h1 class="yellow_headline"><%= link_to @gamejam.name, gamejam_path(@gamejam), gamejam_id: @gamejam.id %></h1>
-  <% if @gamejam.was_started? %>  
-    <h1 class="yellow_headline"><%= link_to "Submissions", gamejam_jam_submissions_path(@gamejam), gamejam: @gamejam %></h1>
+  <% if @gamejam.published? %>  
+    <h1 class="yellow_headline"><%= link_to "Commands", gamejam_commands_path(@gamejam), gamejam: @gamejam %></h1>
+    <% if @gamejam.was_started? %>  
+      <h1 class="yellow_headline"><%= link_to "Submissions", gamejam_submissions_path(@gamejam), gamejam: @gamejam %></h1>
+    <% end %>
   <% end %>
   <h1 class="yellow_headline"><%= link_to "Back to other gamejams", gamejams_path %></h1>
 <br>
 <div class="info_block"> 
-    <div>Author: <%= link_to @gamejam.author.nickname, user_path(@gamejam.author.id) %></div>
-    <div><%=@gamejam.description.empty? ? "---" : @gamejam.description%></div>
+    <div>Author: <%= link_to @gamejam.author.nickname, user_path(@gamejam.author) %></div>
+    <div>Description: <%=@gamejam.description.empty? ? "---" : @gamejam.description%></div>
     <div>Theme: <%= (@gamejam.was_started? or @gamejam.authored_by_current_user?) ? @gamejam.theme : "Hidden"%></div>
     <div>Starts: <%= @gamejam.start_date %></div>
     <div>Ends: <%= @gamejam.end_date %></div>
     <div class="status">Status: <%= @gamejam.status %></div>
-    <% if @gamejam.authored_by_current_user? %>  
+    <% if @gamejam.authored_by_current_user? and !@gamejam.was_started? %>  
       <div class="yellow_headline"><%= link_to "Edit", edit_gamejam_path(@gamejam), method: :get%></div>
       <div class="yellow_headline"><%= link_to "Delete", @gamejam, data: { turbo_confirm: "Are you sure?", turbo_method: :delete } %></div>
-    <% elsif authenticated? and !@gamejam.was_started? %>
-      <div class="yellow_headline"><%= link_to "Join", gamejam_participations_path, data: {turbo_method: :post},  gamejam_participation: {joined_gamejam_id: @gamejam.id, participant_id: Current.user.id } %></div>
     <% end %>
 </div>
 

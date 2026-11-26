@@ -1,18 +1,14 @@
-<h1 class="yellow_headline"><%= @user.nickname %></h1>
-
-  <div> 
-    <div>Joined: <%= @user.created_at %></div>
-    <% public_gamejams = @user.gamejams.select{ |gj| gj.published? or gj.author=Current.session.user} %>
-    <h2 style="text-align: center"> <%= "Created these gamejams:" unless public_gamejams.empty? %></h2>
-    <ul type="none" style="column-count: 3">
-    <% public_gamejams.each do |gamejam| %>
-    <li style="break-inside: avoid"> 
-      <%= link_to gamejam.name, gamejam_path(gamejam.id) %>
-      <div><%=gamejam.description.nil? ? "---" : gamejam.description%></div>
-      <div>Status: <%= gamejam.status %></div>
-    </li>
-    <br>
-    <% end %>
-    </ul>
-  </div>
+<h1 class="yellow_headline"><%= link_to @user.nickname, [@user] %></h1>
+<h1 class="yellow_headline"><%= link_to "Created gamejams", "/profile/#{@user.nickname}/authored_gamejams", method: :get %></h1>
+<h1 class="yellow_headline"><%= link_to "Jam commands", "/profile/#{@user.nickname}/jam_commands" %></h1>
+<h1 class="yellow_headline"><%= link_to "Jam submissions", "/profile/#{@user.nickname}/jam_submissions" %></h1>
+<br>
+<div class="info_block"> 
+  <div>Joined: <%= @user.created_at.to_date.to_fs(:long_ordinal) %></div>
+  <div><%="Description: " + @user.description unless @user.description.nil? or @user.description.empty? %></div>
+  <% if @user.is_current? %>  
+    <div class="yellow_headline"><%= link_to "Edit", edit_user_path(@user), method: :get%></div>
+    <div class="yellow_headline"><%= link_to "Delete", @user, data: { turbo_confirm: "Are you sure?", turbo_method: :delete } %></div>
+  <% end %>
+</div>
 

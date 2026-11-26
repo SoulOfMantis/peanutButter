@@ -25,12 +25,12 @@ class Gamejam < ApplicationRecord
     published? or authored_by_current_user?
   end
 
-  def authored_by? (user)
-    user == author
+  def authored_by? (user_id)
+    author.id == user_id
   end
 
   def authored_by_current_user?
-    !Current.nil? and !Current.session.nil? and (authored_by? Current.session.user)
+    !Current.nil? and !Current.session.nil? and (authored_by? Current.session.user.id)
   end
 
 end

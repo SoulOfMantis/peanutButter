@@ -2,4 +2,4 @@
 
 <%= render "form", jam_submission: @jam_submission, can_be_published: false%>
 
-<%= button_to "Cancel", gamejam_jam_submissions_path(params[:gamejam_id]), method: :get, class: "button" %>
+<%= button_to "Cancel", gamejam_submissions_path(params[:gamejam_id]), method: :get, class: "button" %>

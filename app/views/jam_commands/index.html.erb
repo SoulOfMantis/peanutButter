@@ -1,0 +1,14 @@
+<br>
+  <% @jam_commands.select{|j| j.accessible?}.each do |jam_submission| %>
+    <div class="info_block" style="break-inside: avoid"> 
+      <h3 class="yellow_headline"><%= link_to jam_submission.name, [jam_submission.gamejam, jam_submission] %></h3>
+      <p>
+        <div>Author: <%= link_to jam_submission.author.nickname, [jam_submission.author] %></div>
+        <div><%=jam_submission.description.nil? ? "---" : jam_submission.description%></div>
+      </p>
+       <div class="status">Status: <% %></div>        
+    </div>
+  <% end %>
+  <% if authenticated? and !@gamejam.nil? and !@gamejam.authored_by_current_user? %>
+    <div><%= button_to "Create new command", new_gamejam_command_path, class: "button", method: :get  %></div>
+  <% end %>

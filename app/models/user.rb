@@ -8,20 +8,22 @@ end
 
 class PasswordValidator < ActiveModel::EachValidator
   def validate_each(record, attribute, value)
-    unless value.length >= 8
-      record.errors.add attribute, (options[:message] || "must be at least 8 characters long")
-    end
-    if value.index(/[0-9]/).nil?
-      record.errors.add attribute, (options[:message] || "must include at least one digit")
-    end
-    if value.index(/[a-z]/).nil?
-      record.errors.add attribute, (options[:message] || "must include at least one lowercase latin letter")
-    end
-    if value.index(/[A-Z]/).nil?
-      record.errors.add attribute, (options[:message] || "must include at least one uppercase latin letter")
-    end
-    if value.index(/[\-\+\*_]/).nil?
-      record.errors.add attribute, (options[:message] || "must include at least one special character (-+*_)")
+    unless value.nil?
+      unless value.length >= 8
+        record.errors.add attribute, (options[:message] || "must be at least 8 characters long")
+      end
+      if value.index(/[0-9]/).nil?
+        record.errors.add attribute, (options[:message] || "must include at least one digit")
+      end
+      if value.index(/[a-z]/).nil?
+        record.errors.add attribute, (options[:message] || "must include at least one lowercase latin letter")
+      end
+      if value.index(/[A-Z]/).nil?
+        record.errors.add attribute, (options[:message] || "must include at least one uppercase latin letter")
+      end
+      if value.index(/[\-\+\*_]/).nil?
+        record.errors.add attribute, (options[:message] || "must include at least one special character (-+*_)")
+      end
     end
   end
 end
@@ -39,7 +41,33 @@ class User < ApplicationRecord
   validates :email_address, presence: true, uniqueness: true, email: true
   validates :nickname, presence: true, uniqueness: true, length: { in: 3..20 }
   validates :name, presence: true, length: { in: 1..20 }
+  validates :password, presence: true, on: :create
   validates :password, password: true
+
+  def author_of_gamejam? (gamejam_id)
+    gamejams.exists? gamejam_id
+  end
+
+  def author_of_jam_submission? (jam_submission_id)
+    jam_submissions.exists? jam_submission_id
+  end
+
+  def member_of_jam_command? (jam_command_id)
+    jam_commands.exists? jam_command_id
+  end
+
+  def is_current?
+    !Current.nil? and !Current.session.nil? and Current.user == self
+  end
+
+  def jam_command_of_gamejam (gamejam_id)
+    jam_commands.where gamejam_id: gamejam_id
+  end
+  
+  def to_param
+    nickname    
+  end
+
 end
 
 

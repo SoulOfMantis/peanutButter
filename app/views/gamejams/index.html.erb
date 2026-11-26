@@ -9,23 +9,12 @@
 <% authenticated? %>
 <h1 class="yellow_headline"><span class="text">Gamejams</span></h1>
 
-<div id="gamejams">
+<div id="gamejams" class="container" type="none">
   <% @gamejams.select{|gj| gj.accessible?}.each do |gamejam| %>
-    <div class="info_block"> 
-      <h3 class="yellow_headline"><%= link_to gamejam.name, gamejam_path(gamejam.id) %></h3>
-      <p>
-        <div>Author: <%= link_to gamejam.author.nickname, user_path(gamejam.author.id) %></div>
-        <div><%=gamejam.description.empty? ? "---" : gamejam.description%></div>
-        <div>Starts: <%= gamejam.start_date %></div>
-        <div>Ends: <%= gamejam.end_date %></div>        
-      </p>
-        <div class="status">Status: <%= gamejam.status %></div>        
-    </div>
+    <%= render partial: "gamejam", locals: {gamejam: gamejam} %>
   <% end %>
   <% if authenticated? %>
-    <div style="display: inline-block"><%= button_to "Create new Gamejam", new_gamejam_path, method: :get, class: "button" %></div>
+    <div style="display: inline-block"><%= button_to "Create new gamejam", new_gamejam_path, method: :get, class: "button" %></div>
   <% end %>
 
-</div>
-
-</div>
+</ul>

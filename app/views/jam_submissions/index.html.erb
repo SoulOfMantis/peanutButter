@@ -1,7 +1,11 @@
 <head>
 <% authenticated? %>
-<h1 class="yellow_headline"><%= link_to "Submissions", gamejam_jam_submissions_path(@gamejam) %></h1>
-<h1 class="yellow_headline"><%= link_to "Back to #{@gamejam.name}", gamejam_path(@gamejam) %></h1>
+<% unless @gamejam.nil? %>
+  <h1 class="yellow_headline"><%= link_to "Submissions", gamejam_submissions_path(@gamejam) %></h1>
+  <h1 class="yellow_headline"><%= link_to "Back to #{@gamejam.name}", gamejam_path(@gamejam) %></h1>
+<% else %>
+  <h1 class="yellow_headline" style="text">Submissions</h1>
+<% end %>
 </head>
 <br>
   <% @jam_submissions.select{|j| j.accessible?}.each do |jam_submission| %>
@@ -14,6 +18,6 @@
        <div class="status">Status: <% %></div>        
     </div>
   <% end %>
-    <% if authenticated? and !@gamejam.authored_by_current_user? %>
-      <div><%= button_to "Create new Submission", new_gamejam_jam_submission_path, class: "button", method: :get  %></div>
+    <% if authenticated? and !@gamejam.nil? and !@gamejam.authored_by_current_user? %>
+      <div><%= button_to "Create new Submission", new_gamejam_submission_path, class: "button", method: :get  %></div>
     <% end %>

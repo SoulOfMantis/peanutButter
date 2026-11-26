@@ -1,0 +1,17 @@
+<div class="info_block" style="text-align: center; display: inline-block; width: 200px">
+<%= form_with model: user do |form| %>
+
+  <div>
+    <%= form.text_field :name, required: true, placeholder: "Name" %>
+  </div>
+
+  <div>
+    <%= form.text_area :description, placeholder: "Description", cols: 24, rows: 3 %>
+  </div>
+
+  <div>
+    <%= form.submit "Submit", class: "button" %>
+  </div>
+
+<% end %>
+</div>

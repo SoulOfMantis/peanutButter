@@ -1,0 +1,11 @@
+<div class="info_block"> 
+  <h3 class="yellow_headline"><%= link_to gamejam.name, gamejam_path(gamejam) %></h3>
+  <p>
+    <div>Author: <%= link_to gamejam.author.nickname, user_path(gamejam.author) %></div>
+    <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><%=gamejam.description.empty? ? "---" : gamejam.description%></div>
+    <div>Starts: <%= gamejam.start_date.to_fs(:long_ordinal) %></div>
+    <div>Ends: <%= gamejam.end_date.to_fs(:long_ordinal) %></div>        
+  </p>
+<div class="status">Status: <%= gamejam.status %></div>        
+</div>
+
