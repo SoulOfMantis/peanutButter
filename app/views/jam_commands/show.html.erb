@@ -5,11 +5,17 @@
 }
 </style>
   <h1 class="yellow_headline"><%= link_to @jam_command.name, gamejam_command_path(@jam_command.joined_jam, @jam_command) %></h1></li> 
-  <h1 class="yellow_headline"><%= link_to "Back to other commands", gamejam_commands_path(@jam_command.joined_jam) %></h1>
+  <h1 class="yellow_headline"><%= link_to "To other commands", gamejam_commands_path(@jam_command.joined_jam) %></h1>
 <br>
 <div class="info_block"> 
-    <div>Authors:</div>
-    <div><%=@jam_command.description.nil? ? "---" : @jam_command.description%></div>
+    <div>
+      Command members:
+      <% @jam_command.members.each do |author| %>
+        <%= link_to author.nickname, user_path(author) %>, 
+      <% end %>
+    </div>
+    <div>Description: <%=@jam_command.description.nil? or @jam_command.description.empty? ? "---" : @jam_command.description %></div>    
+    <div>Submission: <%= @jam_command.jam_submission.accessible? ? (link_to @jam_command.jam_submission.name, gamejam_submission_path(@jam_command.joined_jam, @jam_command.jam_submission)) : "Hidden" %></div>
     <div class="status">Status: <%= @jam_command.status %></div>
     <% if @jam_command.authored_by_current_user? %>  
       <div class="yellow_headline"><%= link_to "Edit", edit_gamejam_command_path(@jam_command), method: :patch %></div>

@@ -2,7 +2,7 @@
 <% authenticated? %>
 <% unless @gamejam.nil? %>
   <h1 class="yellow_headline"><%= link_to "Submissions", gamejam_submissions_path(@gamejam) %></h1>
-  <h1 class="yellow_headline"><%= link_to "Back to #{@gamejam.name}", gamejam_path(@gamejam) %></h1>
+  <h1 class="yellow_headline"><%= link_to "To #{@gamejam.name}", gamejam_path(@gamejam) %></h1>
 <% else %>
   <h1 class="yellow_headline" style="text">Submissions</h1>
 <% end %>
@@ -10,14 +10,10 @@
 <br>
   <% @jam_submissions.select{|j| j.accessible?}.each do |jam_submission| %>
     <div class="info_block" style="break-inside: avoid"> 
-      <h3 class="yellow_headline"><%= link_to jam_submission.name, [jam_submission.gamejam, jam_submission] %></h3>
-      <p>
-        <div>Author: <%= link_to jam_submission.author.nickname, [jam_submission.author] %></div>
-        <div><%=jam_submission.description.nil? ? "---" : jam_submission.description%></div>
-      </p>
-       <div class="status">Status: <% %></div>        
+      <h3 class="yellow_headline"><%= link_to jam_submission.name, gamejam_submission_path(jam_submission.joined_jam, jam_submission) %></h3>
+      <div>Author: <%= link_to jam_submission.jam_command.name, gamejam_command_path(jam_submission.joined_jam, jam_submission.jam_command) %></div>
+      <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><%=jam_submission.description.nil? ? "---" : jam_submission.description%></div>
+       <div class="status">Status: <% jam_submission.status %></div>        
     </div>
   <% end %>
-    <% if authenticated? and !@gamejam.nil? and !@gamejam.authored_by_current_user? %>
-      <div><%= button_to "Create new Submission", new_gamejam_submission_path, class: "button", method: :get  %></div>
-    <% end %>
+

@@ -1,6 +1,6 @@
 <br>
 <div class="info_block">
-<%= form_with model: jam_command, url: gamejam_commands_path(params[:gamejam_id]) do |form| %>
+<%= form_with model: jam_command, url: gamejam_command_path(jam_command.joined_jam, jam_command) do |form| %>
     <% if form.object.errors.any? %>
     <p class="error"><%= form.object.errors.full_messages.first %></p>
     <% end %>
@@ -8,8 +8,6 @@
   <div>
     <%= form.text_field :name, required: true, placeholder: "Enter name" %>
   </div>
-
-  <br>
   <div>
     <%= form.text_area :description, placeholder: "Enter description" %>
   </div>

@@ -4,16 +4,18 @@
   align-items: stretch;
 }
 </style>
-  <h1 class="yellow_headline"><%= link_to @jam_submission.name, gamejam_submission_path(@jam_submission.gamejam, @jam_submission) %></h1></li> 
-  <h1 class="yellow_headline"><%= link_to "Back to other submissions", gamejam_submissions_path(@jam_submission.gamejam) %></h1>
+  <h1 class="yellow_headline"><%= link_to @jam_submission.name, gamejam_submission_path(@jam_submission.joined_jam, @jam_submission) %></h1></li> 
+  <h1 class="yellow_headline"><%= link_to "To other submissions", gamejam_submissions_path(@jam_submission.joined_jam) %></h1>
 <br>
 <div class="info_block"> 
-    <div>Author: <%= link_to @jam_submission.author.nickname, user_path(@jam_submission.author.id) %></div>
-    <div><%=@jam_submission.description.nil? ? "---" : @jam_submission.description%></div>
+    <div>Author: <%= link_to @jam_submission.jam_command.name, gamejam_command_path(@jam_submission.joined_jam, @jam_submission.jam_command) %></div>
+    <div><%=@jam_submission.description.nil? ? "---" : @jam_submission.description %></div>
     <div class="status">Status: <%= @jam_submission.status %></div>
+    <div class="yellow_headline"><%= @jam_submission.game_build.attached? ? (link_to "Download latest build", rails_blob_path(@jam_submission.game_build, disposition: "attachment", method: :get) ) : "---"  %></div>
     <% if @jam_submission.authored_by_current_user? %>  
+      <br>
       <div class="yellow_headline"><%= link_to "Edit", edit_gamejam_submission_path(@jam_submission), method: :patch %></div>
-      <div class="yellow_headline"><%= link_to "Delete", [@jam_submission.gamejam, @jam_submission], data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %></div>
+      <div class="yellow_headline"><%= link_to "Delete", gamejam_submission_path(@jam_submission.joined_jam, @jam_submission), data: { turbo_method: :delete, turbo_confirm: "Are you sure?" } %></div>
     <% end %>
     
   </div>

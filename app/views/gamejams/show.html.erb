@@ -6,18 +6,18 @@
 </style>
 
 <h1 class="yellow_headline"><%= link_to @gamejam.name, gamejam_path(@gamejam), gamejam_id: @gamejam.id %></h1>
-  <% if @gamejam.published? %>  
+  <% if @gamejam.accessible? %>  
     <h1 class="yellow_headline"><%= link_to "Commands", gamejam_commands_path(@gamejam), gamejam: @gamejam %></h1>
-    <% if @gamejam.was_started? %>  
+    <% if @gamejam.theme_available? %>  
       <h1 class="yellow_headline"><%= link_to "Submissions", gamejam_submissions_path(@gamejam), gamejam: @gamejam %></h1>
     <% end %>
   <% end %>
-  <h1 class="yellow_headline"><%= link_to "Back to other gamejams", gamejams_path %></h1>
+  <h1 class="yellow_headline"><%= link_to "To other gamejams", gamejams_path %></h1>
 <br>
 <div class="info_block"> 
     <div>Author: <%= link_to @gamejam.author.nickname, user_path(@gamejam.author) %></div>
     <div>Description: <%=@gamejam.description.empty? ? "---" : @gamejam.description%></div>
-    <div>Theme: <%= (@gamejam.was_started? or @gamejam.authored_by_current_user?) ? @gamejam.theme : "Hidden"%></div>
+    <div>Theme: <%= (@gamejam.theme_available?) ? @gamejam.theme : "Hidden"%></div>
     <div>Starts: <%= @gamejam.start_date %></div>
     <div>Ends: <%= @gamejam.end_date %></div>
     <div class="status">Status: <%= @gamejam.status %></div>

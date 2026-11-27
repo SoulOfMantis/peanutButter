@@ -1,6 +1,7 @@
 class GamejamsController < ApplicationController
   allow_unauthenticated_access only: %i[ index show ]
-  before_action :resume_session, :set_gamejam, only: %i[ show edit update destroy ] 
+  before_action :resume_session, only: %i[ show edit update destroy index ] 
+  before_action :set_gamejam, only: %i[ show edit update destroy ] 
  
  def index
     author = User.find_by(nickname: params[:author])
@@ -12,7 +13,7 @@ class GamejamsController < ApplicationController
   end
 
   def show
-    unless @gamejam.published? or @gamejam.authored_by_current_user?
+    unless @gamejam.accessible?
       redirect_to gamejams_path, status: :forbidden and return
     end
   end
@@ -34,13 +35,13 @@ class GamejamsController < ApplicationController
   end
 
   def edit
-    if !@gamejam.authored_by_current_user?
+    if !@gamejam.authored_by_current_user? or @gamejam.was_started?
       redirect_to @gamejam, status: :forbidden
     end
   end
 
   def update
-    if !@gamejam.authored_by_current_user?
+    if !@gamejam.authored_by_current_user? or @gamejam.was_started?
       redirect_to @gamejam, status: :forbidden
     end
 
@@ -52,7 +53,9 @@ class GamejamsController < ApplicationController
   end
 
   def destroy
-    @gamejam.destroy if @gamejam.authored_by_current_user? 
+    redirect_to @gamejam, status: :forbidden and return if !@gamejam.authored_by_current_user?
+    
+    @gamejam.destroy 
     redirect_to gamejams_path
   end
 

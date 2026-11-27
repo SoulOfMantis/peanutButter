@@ -17,6 +17,10 @@ class Gamejam < ApplicationRecord
     status == "Ongoing" or status == "Finished"
   end
 
+  def finished?
+    status == "Finished"
+  end
+
   def draft?
     status == "Draft"
   end
@@ -31,6 +35,10 @@ class Gamejam < ApplicationRecord
 
   def authored_by_current_user?
     !Current.nil? and !Current.session.nil? and (authored_by? Current.session.user.id)
+  end
+
+  def theme_available?
+    was_started? or authored_by_current_user?
   end
 
 end

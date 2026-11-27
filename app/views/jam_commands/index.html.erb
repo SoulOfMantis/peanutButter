@@ -1,14 +1,19 @@
+<% authenticated? %>
+<% unless @gamejam.nil? %>
+  <h1 class="yellow_headline"><%= link_to "Commands", gamejam_commands_path(@gamejam) %></h1>
+  <h1 class="yellow_headline"><%= link_to "To #{@gamejam.name}", gamejam_path(@gamejam) %></h1>
+<% else %>
+  <h1 class="yellow_headline" style="text">Commands</h1>
+<% end %>
+
 <br>
-  <% @jam_commands.select{|j| j.accessible?}.each do |jam_submission| %>
+  <% @jam_commands.select{|j| j.accessible?}.each do |jam_command| %>
     <div class="info_block" style="break-inside: avoid"> 
-      <h3 class="yellow_headline"><%= link_to jam_submission.name, [jam_submission.gamejam, jam_submission] %></h3>
-      <p>
-        <div>Author: <%= link_to jam_submission.author.nickname, [jam_submission.author] %></div>
-        <div><%=jam_submission.description.nil? ? "---" : jam_submission.description%></div>
-      </p>
-       <div class="status">Status: <% %></div>        
+      <h3 class="yellow_headline"><%= link_to jam_command.name, gamejam_command_path(jam_command.joined_jam, jam_command) %></h3>
+      <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><%=jam_command.description.nil? ? "---" : jam_command.description%></div>
+       <div class="status">Status: <%= jam_command.status %></div>        
     </div>
   <% end %>
-  <% if authenticated? and !@gamejam.nil? and !@gamejam.authored_by_current_user? %>
+  <% if authenticated? and !@gamejam.nil? and !@gamejam.authored_by_current_user? and !(Current.user.joined_jams.exists? @gamejam.id) %>
     <div><%= button_to "Create new command", new_gamejam_command_path, class: "button", method: :get  %></div>
   <% end %>
